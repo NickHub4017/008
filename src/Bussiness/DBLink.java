@@ -48,7 +48,9 @@ public class DBLink {
 		stmt = c.createStatement();
 	      String sql = "CREATE TABLE User " +
 	                   "(UserID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-	                   " Uname           CHAR(50) UNIQUE   NOT NULL," + 
+	                   " Uname           CHAR(50) UNIQUE   NOT NULL," +
+	                   " Name           TEXT   NOT NULL," + 
+	                   " Address         TEXT   NOT NULL," + 
 	                   " Pwd            CHAR(50)     NOT NULL)"; 
 	      stmt.executeUpdate(sql);
 	      stmt.close();
@@ -94,17 +96,19 @@ public class DBLink {
 	}
 
 	
-	public boolean submitNewUser(String uname, String pwd) throws SQLException {
+	public boolean submitNewUser(String uname, String pwd,String name,String addr) throws SQLException {
 		// TODO Auto-generated method stub
 		PreparedStatement stmt = null;
 		 c.setAutoCommit(false);
 
 	      
-	      String sql = "INSERT INTO User (Uname,Pwd) " +
-	                   "VALUES (?,?);";
+	      String sql = "INSERT INTO User (Uname,Pwd,Name,Address) " +
+	                   "VALUES (?,?,?,?);";
 	      stmt = c.prepareStatement(sql);
 	      stmt.setString(1,uname);
 	      stmt.setString(2, pwd);
+	      stmt.setString(3, name);
+	      stmt.setString(4, addr);
 	      int result=stmt.executeUpdate();
 	      stmt.close();
 	      c.commit();
@@ -115,9 +119,28 @@ public class DBLink {
 		
 	}
 
-	public static boolean isAccountExsist() {
-		// TODO Auto-generated method stub
-		return false;
+	public static boolean isAccountExsist(String accountNo) throws SQLException {
+		PreparedStatement stmt = null;
+		 c.setAutoCommit(false);
+
+	      
+	      String sql = "SELECT * FROM Account WHERE AccountID = ? ";
+	      stmt = c.prepareStatement(sql);
+	      stmt.setString(1,accountNo);
+	      ResultSet result=stmt.executeQuery();
+	      
+	      c.commit();
+	      if(result.next()){
+	    	
+	    	  stmt.close();
+	    	  return true;
+	      }
+	      
+	      stmt.close();
+	      return false;
+
+		
+		
 	}
 
 
@@ -185,7 +208,7 @@ public class DBLink {
 	    	  stmt.close();
 	    	  return res;
 	      }
-	      System.out.println("No out");
+	      
 	      stmt.close();
 		return -1;
 
@@ -289,8 +312,29 @@ public class DBLink {
 
 		
 	}
-	public static void deposit() {
-		// TODO Auto-generated method stub
+	
+	public static Profile getUserProfile(int id) throws SQLException {
+		PreparedStatement stmt = null;
+		 c.setAutoCommit(false);
+
+	      
+	      String sql = "SELECT Name,Address FROM User WHERE UserID = ? ";
+	      stmt = c.prepareStatement(sql);
+	      stmt.setInt(1,id);
+	      ResultSet result=stmt.executeQuery();
+	      c.commit();
+	      if(result.next()){
+	    	System.out.println(result.getString(1));
+	    	  String name=result.getString(1);
+	    	  String addr=result.getString(2);
+	    	  stmt.close();
+	    	  return new Profile(name,addr);
+	      }
+	      
+	      stmt.close();
+		return null;
+
+		
 		
 	}
 	

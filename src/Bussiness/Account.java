@@ -38,6 +38,16 @@ public class Account {
 	}
 
 	public double getAmount() {
+		this.amount=0;
+		for (Transaction tr : transactions){
+			if(tr.getFromAccount().equals(getAccountNo())){
+				this.amount=this.amount+(tr.getAmount()*-1);
+			}
+			else{
+				this.amount=this.amount+tr.getAmount();
+			}
+		}
+		
 		return amount;
 	}
 

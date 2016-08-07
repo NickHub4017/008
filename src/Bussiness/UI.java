@@ -3,14 +3,28 @@ package Bussiness;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import javax.naming.InsufficientResourcesException;
+
+import Exceptions.AccountExsists;
+import Exceptions.InsufficientBalance;
+import Exceptions.UserExsist;
+
 
 
 public class UI {
 	
-	public static void main(String args[]) throws ClassNotFoundException, SQLException{
-		//User loggedUser=Login();
-		DBLink p=new DBLink();
-		p.initializeDB();
+	public static void main(String args[]) {
+		
+		DBLink p;
+		try {
+			p = new DBLink();
+			p.initializeDB();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		optionOne();
 		
 	}
@@ -29,7 +43,6 @@ public class UI {
 			}
 			catch(Exception e){
 				mainoptionint=-1;
-			
 			}
 			
 			if(mainoptionint==2){
@@ -42,6 +55,9 @@ public class UI {
 				if(user!=null){
 					optionTwo(user);
 				
+				}
+				else{
+					System.err.println("Invalid Credentials");
 				}
 			}
 			else if(mainoptionint==4){
@@ -116,16 +132,24 @@ public class UI {
 		String pwd=scanner.nextLine();
 		System.out.println("Re-Password");
 		String re_pwd=scanner.nextLine();
+		System.out.println("Name");
+		String name=scanner.nextLine();
+		System.out.println("Address");
+		String addr=scanner.nextLine();
 		try {
-			UserHandler.Register(uname, pwd,re_pwd);
+			if(!UserHandler.Register(uname, pwd,re_pwd,name,addr)){
+				System.err.println("Password Didn't match");
+			}
+			
 		} catch (ClassNotFoundException e) {
-			System.err.println("Sorry System error occured in Register Please Try Again");
-			e.printStackTrace();
+			System.err.println("Sorry System error occured in Register Please Try Again"+e.getMessage());
 		} catch (SQLException e) {
-			System.err.println("Sorry System error occured in Register Please Try Again");
-			e.printStackTrace();
+			System.err.println("Sorry System error occured in Register Please Try Again"+e.getMessage());
+		} catch (UserExsist e) {
+			System.err.println("User Name already exsists "+e.getMessage());
 		}
 	}
+	
 	public static User Login(){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("UserName");
@@ -143,22 +167,20 @@ public class UI {
 		return User;
 	}
 	
-	public static boolean CreateAccount(User byuser){
+	public static void CreateAccount(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Account No");
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.createAccount(accountNo);
-			return true;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
-			e.printStackTrace();
-			return false;
+		} catch (AccountExsists e) {
+			System.out.println(e.getMessage());
 		}
-		
 	}
 	
-	public static boolean TransferAccount(User byuser){
+	public static void TransferAccount(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter From Account No");
 		String from_accountNo=scanner.nextLine();
@@ -168,12 +190,13 @@ public class UI {
 		long amount=scanner.nextLong();
 		try {
 			byuser.TransferAmount(from_accountNo, to_accountNo, amount);
-			return true;
+			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println(e.getMessage());
-			e.printStackTrace();
-			return false;
+			System.err.println(e.getMessage());
+			
+		} catch (InsufficientBalance e) {
+			System.err.println(e.getMessage());
+			
 		}
 		
 	}
@@ -182,8 +205,12 @@ public class UI {
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Account No");
 		String accountNo=scanner.nextLine();
-		
-		byuser.showHsitory(accountNo);
+		try {
+			byuser.showHsitory(accountNo);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
 		return true;
 		
 	}
@@ -192,9 +219,11 @@ public class UI {
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Account No");
 		String accountNo=scanner.nextLine();
-		
-		byuser.InquireAccount(accountNo);
-		
+		try {
+			byuser.InquireAccount(accountNo);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 	
@@ -207,8 +236,7 @@ public class UI {
 		}
 		else if(option.equals("2")){
 			EditProfileAddress(byuser);
-		}
-		
+		}		
 	}
 	
 	public static boolean EditProfileName(User byuser){
@@ -216,8 +244,6 @@ public class UI {
 		System.out.println("Enter Name ");
 		String newname=scanner.nextLine();
 		byuser.changeName(newname);
-		
-		
 		return true;
 		
 	}
@@ -231,7 +257,7 @@ public class UI {
 		
 	}
 	
-	public static boolean Message(User byuser){
+	public static void Message(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Message");
 		String msg=scanner.nextLine();
@@ -243,7 +269,7 @@ public class UI {
 		}
 		
 		
-		return true;
+		
 		
 	}
 	public static boolean Deposit(User byuser){
@@ -281,7 +307,5 @@ public class UI {
 		return true;
 		
 	}
-
-	
 	
 }

@@ -2,19 +2,18 @@ package Bussiness;
 
 import java.sql.SQLException;
 
+import Exceptions.UserExsist;
+
 public class UserHandler {
 
 
-	public static boolean Register(String Uname,String Pwd,String re_pwd) throws ClassNotFoundException, SQLException{
+	public static boolean Register(String Uname,String Pwd,String re_pwd,String name,String addr) throws ClassNotFoundException, SQLException, UserExsist{
 		DBLink dbLink=new DBLink();
 		if(re_pwd.equals(Pwd)){
 			if(!dbLink.isUserExsists(Uname)){
-				return dbLink.submitNewUser(Uname,Pwd);
+				return dbLink.submitNewUser(Uname,Pwd,name,addr);
 			}
-			else{
-				
-			}
-			
+			throw new UserExsist(Uname);		
 		}
 		return false;
 		
@@ -36,5 +35,6 @@ public class UserHandler {
 		for (Account act: user.getAccounts().values()){
 			act.setTransactions(DBLink.getTransactions(act.getAccountNo()));
 		}
+		user.setProfile(DBLink.getUserProfile(user.getId()));
 	}
 }
