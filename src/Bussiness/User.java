@@ -10,7 +10,19 @@ public class User {
 	 String Pwd;
 	 int id;//This will get 0< value when login successful
 	 HashMap<String, Account> accounts=new HashMap<String,Account>();
-	 String Name;
+	 public HashMap<String, Account> getAccounts() {
+		return accounts;
+	}
+
+
+
+	public void setAccounts(HashMap<String, Account> accounts) {
+		this.accounts = accounts;
+	}
+
+
+
+	String Name;
 	 String address;
 	
 	public User(String uname, String pwd) {
@@ -32,30 +44,8 @@ public class User {
 	}
 
 
-
-	public boolean Register(String re_pwd) throws ClassNotFoundException, SQLException{
-		DBLink dbLink=new DBLink();
-		if(re_pwd.equals(Pwd)){
-			if(!dbLink.isUserExsists(Uname)){
-				return dbLink.submitNewUser(Uname,Pwd);
-			}
-			else{
-				System.out.println("UName is exsists");
-			}
-			
-		}
-		return false;
-		
-	}
 	
-	public boolean Login() throws SQLException{
-		int id= DBLink.CheckLogin(this.Uname,this.Pwd);
-		if (id!=-1){
-			this.id=id;
-		return true;
-		}
-		return false;
-	}
+	
 	
 	public boolean createAccount(String accountNo) throws SQLException{
 		boolean res= AccountHandler.CreateAccount(this, accountNo);
@@ -108,5 +98,19 @@ public class User {
 		
 	}
 	
+	public boolean deposit(String to,double amount) throws SQLException{
+		Account toacc=new Account(to);
+		if(accounts.containsKey(to)){
+			toacc=accounts.get(to);
+		}
+		
+		 AccountHandler.Deposit(toacc, this, amount);
+		 return true;
+	}
 	
+	public boolean withdraw(String from,double amount) throws SQLException{
+		Account fromacc=new Account(from);
+		 return AccountHandler.Withdraw(fromacc, this, amount);
+		 
+	}
 }

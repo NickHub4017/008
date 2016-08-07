@@ -11,10 +11,6 @@ public class UI {
 		//User loggedUser=Login();
 		DBLink p=new DBLink();
 		p.initializeDB();
-		
-		
-//		Register();
-		
 		optionOne();
 		
 	}
@@ -37,26 +33,15 @@ public class UI {
 			}
 			
 			if(mainoptionint==2){
-				try {
 					Register();
-				} catch (ClassNotFoundException e) {
-					
-					e.printStackTrace();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			else if(mainoptionint==3){
 				User user=null;
-				try {
-					user = Login();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				user = Login();
+				
 				if(user!=null){
 					optionTwo(user);
+				
 				}
 			}
 			else if(mainoptionint==4){
@@ -77,11 +62,12 @@ public class UI {
 			System.out.println("Enter Options 5-CreateAccount"
 					+ " 6-Transfer Account  7-Inquiry  "
 					+ "8-History  9-Profile  10-Message  "
-					+ "11-Exit");
+					+ "11-Deposit  12-Withdraw 13-Logout");
 			suboption=scanner.nextLine();
 			try{
 				suboptionint=Integer.parseInt(suboption);
 			}
+			
 			catch(Exception e){
 				suboptionint=-1;
 			}
@@ -107,16 +93,22 @@ public class UI {
 			else if(suboptionint==10){
 				Message(user);
 			}
+			else if(suboptionint==11){
+				Deposit(user);
+			}
+			else if(suboptionint==12){
+				Withdraw(user);
+			}
 			
 			
-		}while(!suboption.equals("11"));
-		
+		}while(!suboption.equals("13"));
+		System.out.println("You have Logout from System");
 		return;
 	}
 	
 	
 	
-	public static void Register() throws ClassNotFoundException, SQLException{
+	public static void Register() {
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("UserName");
 		String uname=scanner.nextLine();
@@ -124,21 +116,31 @@ public class UI {
 		String pwd=scanner.nextLine();
 		System.out.println("Re-Password");
 		String re_pwd=scanner.nextLine();
-		User newUser=new User(uname, pwd);
-		newUser.Register(re_pwd);
+		try {
+			UserHandler.Register(uname, pwd,re_pwd);
+		} catch (ClassNotFoundException e) {
+			System.err.println("Sorry System error occured in Register Please Try Again");
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.err.println("Sorry System error occured in Register Please Try Again");
+			e.printStackTrace();
+		}
 	}
-	public static User Login() throws SQLException{
+	public static User Login(){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("UserName");
 		String uname=scanner.nextLine();
 		System.out.println("Password");
 		String pwd=scanner.nextLine();
-		
-		User User=new User(uname, pwd);
-		if(User.Login()){
-			return User;
+		User User=null;
+		try {
+			User=UserHandler.Login(uname, pwd);
+			
+		} catch (SQLException e) {
+			System.err.println("Sorry System error occured in Login Please Try Again");
+			e.printStackTrace();
 		}
-		return null;
+		return User;
 	}
 	
 	public static boolean CreateAccount(User byuser){
@@ -149,7 +151,6 @@ public class UI {
 			byuser.createAccount(accountNo);
 			return true;
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println(e.getMessage());
 			e.printStackTrace();
 			return false;
@@ -163,7 +164,7 @@ public class UI {
 		String from_accountNo=scanner.nextLine();
 		System.out.println("Enter To Account No");
 		String to_accountNo=scanner.nextLine();
-		System.out.println("Enter To Account No");
+		System.out.println("Enter Amount");
 		long amount=scanner.nextLong();
 		try {
 			byuser.TransferAmount(from_accountNo, to_accountNo, amount);
@@ -187,17 +188,17 @@ public class UI {
 		
 	}
 	
-	public static boolean Inquiry(User byuser){
+	public static void Inquiry(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Account No");
 		String accountNo=scanner.nextLine();
 		
 		byuser.InquireAccount(accountNo);
-		return true;
+		
 		
 	}
 	
-	public static boolean Profile(User byuser){
+	public static void Profile(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("1 Edit Name   2 Edit Address");
 		String option=scanner.nextLine();
@@ -205,11 +206,8 @@ public class UI {
 			EditProfileName(byuser);
 		}
 		else if(option.equals("2")){
-			
+			EditProfileAddress(byuser);
 		}
-		
-		
-		return true;
 		
 	}
 	
@@ -224,14 +222,12 @@ public class UI {
 		
 	}
 	
-	public static boolean EditProfileAddress(User byuser){
+	public static void EditProfileAddress(User byuser){
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter Addr ");
 		String newaddr=scanner.nextLine();
 		byuser.changeAddress(newaddr);
 		
-		
-		return true;
 		
 	}
 	
@@ -250,6 +246,42 @@ public class UI {
 		return true;
 		
 	}
+	public static boolean Deposit(User byuser){
+		Scanner scanner=new Scanner(System.in);
+		System.out.println("Account No Deposit");
+		String accno=scanner.nextLine();
+		System.out.println("Amount");
+		double amount=scanner.nextDouble();
+		try {
+			byuser.deposit(accno, amount);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		return true;
+		
+	}
+
+	public static boolean Withdraw(User byuser){
+		Scanner scanner=new Scanner(System.in);
+		System.out.println("Account No Withdraw");
+		String accno=scanner.nextLine();
+		System.out.println("Amount");
+		double amount=scanner.nextDouble();
+		try {
+			byuser.withdraw(accno, amount);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		
+		
+		return true;
+		
+	}
+
 	
 	
 }

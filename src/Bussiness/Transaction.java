@@ -3,17 +3,25 @@ package Bussiness;
 import java.util.Date;
 
 public class Transaction {
-		long amount;
-		Account toAccount;
-		Account fromAccount;
+		double amount;
+		String toAccount;
+		String fromAccount;
 		Date transactionDate;
+	
+		
+	public Transaction(double amount, String fromAccount,String toAccount, Date date) {
+		this.amount=amount;
+		this.toAccount=toAccount;
+		this.fromAccount=fromAccount;
+		this.transactionDate=date;
+		}
 	public double getAmount() {
 		return amount;
 	}
-	public Account getToAccount() {
+	public String getToAccount() {
 		return toAccount;
 	}
-	public Account getFromAccount() {
+	public String getFromAccount() {
 		return fromAccount;
 	}
 	public Date getTransactionDate() {
