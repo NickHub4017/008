@@ -2,13 +2,10 @@ package Bussiness;
 
 import java.sql.SQLException;
 import java.util.Scanner;
-
-import javax.naming.InsufficientResourcesException;
-
 import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
+import Exceptions.NotAuthorize;
 import Exceptions.UserExsist;
-
 
 
 public class UI {
@@ -150,7 +147,7 @@ public class UI {
 		}
 	}
 	
-	public static User Login(){
+	public static User Login() {
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("UserName");
 		String uname=scanner.nextLine();
@@ -197,6 +194,8 @@ public class UI {
 		} catch (InsufficientBalance e) {
 			System.err.println(e.getMessage());
 			
+		} catch (NotAuthorize e) {
+			System.err.println(e.getMessage());
 		}
 		
 	}
@@ -210,6 +209,9 @@ public class UI {
 		} catch (SQLException e) {
 
 			e.printStackTrace();
+		} catch (NotAuthorize e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		return true;
 		
@@ -222,6 +224,9 @@ public class UI {
 		try {
 			byuser.InquireAccount(accountNo);
 		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (NotAuthorize e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -253,8 +258,6 @@ public class UI {
 		System.out.println("Enter Addr ");
 		String newaddr=scanner.nextLine();
 		byuser.changeAddress(newaddr);
-		
-		
 	}
 	
 	public static void Message(User byuser){
@@ -283,6 +286,8 @@ public class UI {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+		} catch (NotAuthorize e) {
+			
 		}
 		
 		
@@ -300,6 +305,9 @@ public class UI {
 			byuser.withdraw(accno, amount);
 		} catch (SQLException e) {
 			
+			e.printStackTrace();
+		} catch (NotAuthorize e) {
+
 			e.printStackTrace();
 		}
 		

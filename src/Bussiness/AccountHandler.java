@@ -7,6 +7,7 @@ import javax.naming.InsufficientResourcesException;
 
 import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
+import Exceptions.NotAuthorize;
 
 public class AccountHandler {
 
@@ -21,7 +22,7 @@ public class AccountHandler {
 		return true;
 	}
 	
-	public static boolean TransferAmount(Account from,Account to,double amount,User byuser) throws SQLException, InsufficientBalance{
+	public static boolean TransferAmount(Account from,Account to,double amount,User byuser) throws SQLException, InsufficientBalance, NotAuthorize{
 		
 		if(from.getAmount()>amount){
 			from.debit(amount);
@@ -40,24 +41,17 @@ public class AccountHandler {
 			throw new InsufficientBalance(byuser.getUname(),from.getAccountNo(),to.getAccountNo(),amount);
 		}
 	}
-	public static String ShowHistory(Account from){
-		//DBLink.getHistory();
-		return "";
-	}
-
-	public static String Getnquiry(Account from){
-		//DBLink.getInquiry();
-		return "";
-	}
 	
-	public static boolean Deposit(Account to,User byuser,double amount) throws SQLException{
+	
+	
+	public static boolean Deposit(Account to,User byuser,double amount) throws SQLException,NotAuthorize{
 		Transaction tr_temp=new Transaction(amount, "Cachier",to.accountNo, new Date());
 		DBLink.submitTransaction(tr_temp, byuser);
 		to.getTransactions().add(tr_temp);
 		return true;
 	}
 	
-	public static boolean Withdraw(Account from,User byuser,double amount) throws SQLException{
+	public static boolean Withdraw(Account from,User byuser,double amount) throws SQLException,NotAuthorize{
 		if(from.getAmount()>=amount){
 			Transaction tr_temp=new Transaction(amount, from.accountNo,"ATM", new Date());
 			boolean res=DBLink.submitTransaction(tr_temp, byuser);
@@ -67,7 +61,7 @@ public class AccountHandler {
 			return res;
 		}
 		else{
-			System.out.println("ELSE"+from.getAccountNo());
+			
 			return false;
 		}
 		

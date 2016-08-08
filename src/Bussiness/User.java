@@ -8,13 +8,29 @@ import javax.print.attribute.HashAttributeSet;
 
 import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
+import Exceptions.NotAuthorize;
 
 public class User {
 	 String Uname;
 	 String Pwd;
 	 int id;//This will get 0< value when login successful
 	 HashMap<String, Account> accounts=new HashMap<String,Account>();
-	 Profile profile;
+	 public long getKey() {
+		return key;
+	}
+
+
+
+	public void setKey(long key) {
+		this.key = key;
+	}
+
+	Profile profile;
+	 long key;
+
+	String Name;
+	String address;
+	
 	 public HashMap<String, Account> getAccounts() {
 		return accounts;
 	}
@@ -27,8 +43,6 @@ public class User {
 
 
 
-	String Name;
-	 String address;
 	
 	public User(String uname, String pwd) {
 		super();
@@ -61,15 +75,22 @@ public class User {
 		return res;
 	}
 	
-	public boolean TransferAmount(String from_accountNo,String to_accountNo,long amount) throws SQLException, InsufficientBalance{
+	public boolean TransferAmount(String from_accountNo,String to_accountNo,long amount) throws SQLException, InsufficientBalance, NotAuthorize{
 		Account toaccount=new Account(to_accountNo);
-		return AccountHandler.TransferAmount(accounts.get(from_accountNo), toaccount, amount,this);
+		Account fromaccount;
+		if((fromaccount=accounts.get(from_accountNo))==null){
+			fromaccount=new Account(from_accountNo);
+		}
+		return AccountHandler.TransferAmount(fromaccount, toaccount, amount,this);
 	}
 
 
 
-	public void showHsitory(String accountNo) throws SQLException {
-		Account account=accounts.get(accountNo);
+	public void showHsitory(String accountNo) throws SQLException,NotAuthorize {
+		Account account;
+		if((account=accounts.get(accountNo))==null){
+			account=new Account(accountNo);
+		}
 		AccountHandler.UpdateTransactionSet(account);//Update Account transaction List
 		account.printHistory();
 		
@@ -78,9 +99,11 @@ public class User {
 
 
 
-	public void InquireAccount(String accountNo) throws SQLException {
-		
-		Account account=accounts.get(accountNo);
+	public void InquireAccount(String accountNo) throws SQLException,NotAuthorize {
+		Account account;
+		if((account=accounts.get(accountNo))==null){
+			account=new Account(accountNo);
+		}
 		AccountHandler.UpdateTransactionSet(account);
 		System.out.println(account.showInquiry());
 	}
@@ -118,17 +141,19 @@ public class User {
 
 
 
-	public boolean deposit(String to,double amount) throws SQLException{
+	public boolean deposit(String to,double amount) throws SQLException,NotAuthorize{
 		Account toacc=new Account(to);
 		if(accounts.containsKey(to)){
 			toacc=accounts.get(to);
 		}
 		
-		 AccountHandler.Deposit(toacc, this, amount);
-		 return true;
+		AccountHandler.Deposit(toacc, this, amount);
+		return false;
+		
+		  
 	}
 	
-	public boolean withdraw(String from,double amount) throws SQLException{
+	public boolean withdraw(String from,double amount) throws SQLException, NotAuthorize{
 		Account fromacc=new Account(from);
 		if(accounts.containsKey(from)){
 			fromacc=accounts.get(from);

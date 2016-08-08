@@ -253,7 +253,7 @@ public class DBLink {
 	      HashMap<String, Account> accounts=new HashMap<String,Account>();
 	      c.commit();
 	      while(result.next()){
-	    	  Account temp=new Account(result.getDouble(4),result.getString(1),new Date(result.getString(3)));
+	    	  Account temp=new Account(0,result.getString(1),new Date(result.getString(3)));
 	    	  
 	    	  accounts.put(result.getString(1), temp);
 	    	  
@@ -338,6 +338,30 @@ public class DBLink {
 		
 	}
 	
+	public static boolean isAccountBelong(String accountNo,int uid) throws SQLException {
+		PreparedStatement stmt = null;
+		 c.setAutoCommit(false);
 
+	      
+	      String sql = "SELECT * FROM Account WHERE AccountID = ? and UserID= ?";
+	      stmt = c.prepareStatement(sql);
+	      stmt.setString(1,accountNo);
+	      stmt.setInt(2,uid);
+	      ResultSet result=stmt.executeQuery();
+	      
+	      c.commit();
+	      if(result.next()){
+	    	
+	    	  stmt.close();
+	    	  return true;
+	      }
+	      
+	      stmt.close();
+	      return false;
+
+		
+		
+	}
+	
 	
 }
