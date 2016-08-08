@@ -9,40 +9,35 @@ import javax.print.attribute.HashAttributeSet;
 import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
 import Exceptions.NotAuthorize;
+import Exceptions.SessionTimeOut;
 
 public class User {
 	 String Uname;
 	 String Pwd;
 	 int id;//This will get 0< value when login successful
 	 HashMap<String, Account> accounts=new HashMap<String,Account>();
+		Profile profile;
+		 long key;
+
+		String Name;
+		String address;
+
+		
 	 public long getKey() {
 		return key;
 	}
 
-
-
 	public void setKey(long key) {
 		this.key = key;
 	}
-
-	Profile profile;
-	 long key;
-
-	String Name;
-	String address;
 	
 	 public HashMap<String, Account> getAccounts() {
 		return accounts;
 	}
 
-
-
 	public void setAccounts(HashMap<String, Account> accounts) {
 		this.accounts = accounts;
 	}
-
-
-
 	
 	public User(String uname, String pwd) {
 		super();
@@ -50,21 +45,13 @@ public class User {
 		Pwd = pwd;
 	}
 
-
-
 	public String getUname() {
 		return Uname;
 	}
 
-
-
 	public int getId() {
 		return id;
 	}
-
-
-	
-	
 	
 	public boolean createAccount(String accountNo) throws SQLException, AccountExsists{
 		boolean res= AccountHandler.CreateAccount(this, accountNo);
@@ -94,10 +81,7 @@ public class User {
 		AccountHandler.UpdateTransactionSet(account);//Update Account transaction List
 		account.printHistory();
 		
-		
 	}
-
-
 
 	public void InquireAccount(String accountNo) throws SQLException,NotAuthorize {
 		Account account;
@@ -108,21 +92,15 @@ public class User {
 		System.out.println(account.showInquiry());
 	}
 
-
-
 	public void changeName(String newname) {
 		this.Name=newname;
 		
 	}
 
-
-
 	public void changeAddress(String newaddr) {
 		this.address=newaddr;
 		
 	}
-
-
 
 	public void putMessage(String msg) throws SQLException {
 		MessageHandler.putMessage(msg,this);
@@ -133,13 +111,9 @@ public class User {
 		return profile;
 	}
 
-
-
 	public void setProfile(Profile profile) {
 		this.profile = profile;
 	}
-
-
 
 	public boolean deposit(String to,double amount) throws SQLException,NotAuthorize{
 		Account toacc=new Account(to);

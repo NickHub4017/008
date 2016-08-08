@@ -6,8 +6,7 @@ import Bussiness.Account;
 import Bussiness.DBLink;
 import Bussiness.User;
 import Exceptions.NotAuthorize;
-
-
+import Exceptions.SessionTimeOut;
 import Bussiness.*;
 
 
@@ -16,7 +15,7 @@ import Bussiness.*;
 public aspect UserAccess {
 	declare precedence: UserAccess,*;
 
-	public pointcut useraccess(User user) :call(* User.*(*)) && target(user) && !within(UserAccess);
+	public pointcut useraccess(User user) :call(* User.*(..)) && target(user) && !within(UserAccess) && !within(AccessControl) ;
 
 	before(User user) : useraccess(user) {
 		long curtime=System.currentTimeMillis();
@@ -24,6 +23,7 @@ public aspect UserAccess {
 			user.setKey(System.currentTimeMillis()+10000);
 		}else{
 			System.out.println("Session Timed out");
+			///throw new SessionTimeOut(message)
 			
 		}
 		
@@ -38,7 +38,7 @@ public aspect UserAccess {
 			user.setKey(System.currentTimeMillis()+10000);
 		}else{
 			System.out.println("Session Timed out");
-			
+			return;
 		}
 		
 	}

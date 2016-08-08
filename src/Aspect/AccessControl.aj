@@ -7,6 +7,26 @@ import Exceptions.NotAuthorize;
 
 public aspect AccessControl {
 
+	public pointcut useraccess(User user) :call(* User.*(*)) && target(user) && !within(AccessControl);
+
+	before(User user) : useraccess(user) {
+		long curtime=System.currentTimeMillis();
+		if(user.getKey()>curtime){
+			user.setKey(System.currentTimeMillis()+10000);
+		}else{
+			System.out.println("Session Timed out");
+			
+		}
+		
+	}
+	
+	
+	pointcut VerifyLogging(User user) : initialization(User.new(String,String)) && target(user) && !within(AccessControl);
+	
+	after(User user): VerifyLogging(user){
+		  user.setKey(System.currentTimeMillis()+10000);
+	  }
+
 	public pointcut accountauthorization(Account account,User user) :call(* AccountHandler.TransferAmount(Account,..,User)) && args(account,..,user);
 	boolean around(Account account,User user) throws SQLException, NotAuthorize : accountauthorization(account,user) {
 		
