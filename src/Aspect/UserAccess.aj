@@ -13,17 +13,18 @@ import Bussiness.*;
 
 
 public aspect UserAccess {
-	declare precedence: UserAccess,*;
+	declare precedence: UserAccess,*,LoggerAspect;
 
-	public pointcut useraccess(User user) :call(* User.*(..)) && target(user) && !within(UserAccess) && !within(AccessControl) ;
+	public pointcut useraccess(User user) :call(* User.*(..)) && target(user) && !within(UserAccess) && !within(AccessControl) && within(UI) ;
 
-	before(User user) : useraccess(user) {
+	before(User user) throws SessionTimeOut : useraccess(user) {
 		long curtime=System.currentTimeMillis();
+		System.out.println(user.getKey()+" "+curtime);
 		if(user.getKey()>curtime){
 			user.setKey(System.currentTimeMillis()+10000);
 		}else{
-			System.out.println("Session Timed out");
-			///throw new SessionTimeOut(message)
+			
+			throw new SessionTimeOut("Session Time out");
 			
 		}
 		
@@ -32,13 +33,13 @@ public aspect UserAccess {
 
 	public pointcut useraccess2(User user) :call(* User.withdraw(String,String)) && target(user) && !within(UserAccess);
 
-	before(User user) : useraccess(user) {
+	before(User user) throws SessionTimeOut: useraccess(user) {
 		long curtime=System.currentTimeMillis();
 		if(user.getKey()>curtime){
 			user.setKey(System.currentTimeMillis()+10000);
 		}else{
-			System.out.println("Session Timed out");
-			return;
+			throw new SessionTimeOut("Session Time out");
+			
 		}
 		
 	}

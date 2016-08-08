@@ -6,8 +6,8 @@ import Exceptions.NotAuthorize;
 
 
 public aspect AccessControl {
-
-	public pointcut useraccess(User user) :call(* User.*(*)) && target(user) && !within(AccessControl);
+	declare precedence: UserAccess,*,LoggerAspect;
+	public pointcut useraccess(User user) :call(* User.*(*)) && target(user) && !within(AccessControl) &&!within(UserAccess);
 
 	before(User user) : useraccess(user) {
 		long curtime=System.currentTimeMillis();
@@ -76,7 +76,7 @@ public aspect AccessControl {
 		}
 	}
 
-	public pointcut accountAuthorizHistory(String account,User user) :call(* User.showHsitory(String)) && args(account) && target(user);
+	public pointcut accountAuthorizHistory(String account,User user) :execution(* User.showHsitory(String)) && args(account) && target(user);
 	
 	void around(String account,User user) throws SQLException, NotAuthorize: accountAuthorizHistory(account,user) {
 		if(DBLink.isAccountBelong(account,user.getId() )){
@@ -95,12 +95,12 @@ public aspect AccessControl {
 	 before(String account,User user) throws SQLException, NotAuthorize: accountAuthorizInquiry(account,user) {
 		 
 		if(DBLink.isAccountBelong(account,user.getId())){
-			System.out.println("Ok"+account+" "+user.getId());
+			System.out.println("Ok "+account+" "+user.getId());
 			
 		}
 		else{
-			System.out.println("You dont have aithorize");
-			throw new NotAuthorize("You dont have aithorize");		
+			System.out.println("You dont have authorize");
+			throw new NotAuthorize("You dont have authorize");		
 		}
 	}
 	

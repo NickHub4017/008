@@ -53,7 +53,7 @@ public class User {
 		return id;
 	}
 	
-	public boolean createAccount(String accountNo) throws SQLException, AccountExsists{
+	public boolean createAccount(String accountNo) throws SQLException, AccountExsists,SessionTimeOut{
 		boolean res= AccountHandler.CreateAccount(this, accountNo);
 		if(res){
 			Account newAcc=new Account(accountNo);
@@ -62,7 +62,7 @@ public class User {
 		return res;
 	}
 	
-	public boolean TransferAmount(String from_accountNo,String to_accountNo,long amount) throws SQLException, InsufficientBalance, NotAuthorize{
+	public boolean TransferAmount(String from_accountNo,String to_accountNo,long amount) throws SQLException, InsufficientBalance, NotAuthorize,SessionTimeOut{
 		Account toaccount=new Account(to_accountNo);
 		Account fromaccount;
 		if((fromaccount=accounts.get(from_accountNo))==null){
@@ -73,7 +73,7 @@ public class User {
 
 
 
-	public void showHsitory(String accountNo) throws SQLException,NotAuthorize {
+	public void showHsitory(String accountNo) throws SQLException,NotAuthorize,SessionTimeOut {
 		Account account;
 		if((account=accounts.get(accountNo))==null){
 			account=new Account(accountNo);
@@ -83,7 +83,7 @@ public class User {
 		
 	}
 
-	public void InquireAccount(String accountNo) throws SQLException,NotAuthorize {
+	public void InquireAccount(String accountNo) throws SQLException,NotAuthorize,SessionTimeOut {
 		Account account;
 		if((account=accounts.get(accountNo))==null){
 			account=new Account(accountNo);
@@ -92,17 +92,17 @@ public class User {
 		System.out.println(account.showInquiry());
 	}
 
-	public void changeName(String newname) {
+	public void changeName(String newname) throws SessionTimeOut{
 		this.Name=newname;
 		
 	}
 
-	public void changeAddress(String newaddr) {
+	public void changeAddress(String newaddr)throws SessionTimeOut {
 		this.address=newaddr;
 		
 	}
 
-	public void putMessage(String msg) throws SQLException {
+	public void putMessage(String msg) throws SQLException,SessionTimeOut {
 		MessageHandler.putMessage(msg,this);
 		
 	}
@@ -115,7 +115,7 @@ public class User {
 		this.profile = profile;
 	}
 
-	public boolean deposit(String to,double amount) throws SQLException,NotAuthorize{
+	public boolean deposit(String to,double amount) throws SQLException,NotAuthorize,SessionTimeOut{
 		Account toacc=new Account(to);
 		if(accounts.containsKey(to)){
 			toacc=accounts.get(to);
@@ -127,7 +127,7 @@ public class User {
 		  
 	}
 	
-	public boolean withdraw(String from,double amount) throws SQLException, NotAuthorize{
+	public boolean withdraw(String from,double amount) throws SQLException, NotAuthorize,SessionTimeOut{
 		Account fromacc=new Account(from);
 		if(accounts.containsKey(from)){
 			fromacc=accounts.get(from);
