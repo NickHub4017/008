@@ -18,10 +18,11 @@ public aspect LoggerAspect {
 	declare precedence: UserAccess,*,LoggerAspect;
 	pointcut ExceptionRecord() : call(* *.*.*(..));
 
-	after() throwing(SQLException t) : ExceptionRecord(){
+	after() throwing(Exception t) : ExceptionRecord(){
 	    System.err.println("SQL Aspect Log "+t.getMessage());
 	    
 	} 
+	/*
 	pointcut ExceptionRecord2() : call(* *.*.*(..));
 
 	after() throwing(AccountExsists t) : ExceptionRecord2(){
@@ -54,6 +55,7 @@ public aspect LoggerAspect {
 	    System.err.println("User exsists Aspect Log "+t.getMessage());
 	    
 	} 
+	*/
 	pointcut ExceptionRecord7() : within(UserAccess);
 
 	after() throwing(SessionTimeOut t) : ExceptionRecord7(){

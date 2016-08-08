@@ -171,14 +171,9 @@ public class UI {
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.createAccount(accountNo);
-		} catch (SQLException e) {
-			//System.out.println(e.getMessage());
-		} catch (AccountExsists e) {
-			//System.out.println(e.getMessage());
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		}
+		} 
+		catch (SQLException | AccountExsists |SessionTimeOut  e) {
+		} 
 	}
 	
 	public static void TransferAccount(User byuser){
@@ -192,17 +187,9 @@ public class UI {
 		try {
 			byuser.TransferAmount(from_accountNo, to_accountNo, amount);
 			
-		} catch (SQLException e) {
+		} catch (SQLException | InsufficientBalance |NotAuthorize|SessionTimeOut  e) {
 			//System.err.println(e.getMessage());
 			
-		} catch (InsufficientBalance e) {
-			//System.err.println(e.getMessage());
-			
-		} catch (NotAuthorize e) {
-			//System.err.println(e.getMessage());
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 		}
 		
 	}
@@ -213,15 +200,9 @@ public class UI {
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.showHsitory(accountNo);
-		} catch (SQLException e) {
+		} catch (SQLException |NotAuthorize|SessionTimeOut e) {
 
-			//e.printStackTrace();
-		} catch (NotAuthorize e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			
 		}
 		return true;
 		
@@ -233,14 +214,9 @@ public class UI {
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.InquireAccount(accountNo);
-		} catch (SQLException e) {
-			//e.printStackTrace();
-		} catch (NotAuthorize e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+		} catch (SQLException |NotAuthorize|SessionTimeOut e) {
+
+			
 		}
 		
 	}
@@ -264,8 +240,7 @@ public class UI {
 		try {
 			byuser.changeName(newname);
 		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			
 		}
 		return true;
 		
@@ -278,8 +253,7 @@ public class UI {
 		try {
 			byuser.changeAddress(newaddr);
 		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+			
 		}
 	}
 	
@@ -289,12 +263,9 @@ public class UI {
 		String msg=scanner.nextLine();
 		try {
 			byuser.putMessage(msg);
-		} catch (SQLException e) {
+		} catch (SQLException|SessionTimeOut e) {
+
 			
-			//e.printStackTrace();
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 		}
 		
 		
@@ -309,17 +280,9 @@ public class UI {
 		double amount=scanner.nextDouble();
 		try {
 			byuser.deposit(accno, amount);
-		} catch (SQLException e) {
-			
-		//	e.printStackTrace();
-		} catch (NotAuthorize e) {
-			
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
+		}catch (SQLException |NotAuthorize|SessionTimeOut e) {
+	
 		}
-		
-		
 		return true;
 		
 	}
@@ -332,18 +295,9 @@ public class UI {
 		double amount=scanner.nextDouble();
 		try {
 			byuser.withdraw(accno, amount);
-		} catch (SQLException e) {
+		} catch (SQLException |NotAuthorize|SessionTimeOut e) {
 			
-		//	e.printStackTrace();
-		} catch (NotAuthorize e) {
-
-			//e.printStackTrace();
-		} catch (SessionTimeOut e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
 		}
-		
-		
 		return true;
 		
 	}
