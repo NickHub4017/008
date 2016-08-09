@@ -1,0 +1,39 @@
+<project name="Peoples Bank" default="starttask" basedir=".">
+	<property name="sourcedirectory" value="src"></property>
+	<property name="distributedirectory" value="dist"></property>
+	<property name="classesdirectory" value="${distributedirectory}/class"></property>
+	<property name="jardirectory" value="${distributedirectory}/jar"></property>
+	<property name="libdirectory" value="lib"></property>
+	<property name="mainclass" value="Interface/UI"></property>
+	
+	<target name="clean">
+		<delete dir="${distributedirectory}"/>
+	</target>
+	
+    <target name="compile">
+        <mkdir dir="${classesdirectory}"/>
+        <javac srcdir="${sourcedirectory}" destdir="${classesdirectory}">
+        	<classpath>
+        	        <pathelement path="${libdirectory}/*.jar"/>
+        	    </classpath>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${jardirectory}"/>
+        <jar destfile="${jardirectory}/${ant.project.name}.jar" basedir="${classesdirectory}">
+        	<zipgroupfileset dir="${libdirectory}" includes="*.jar" />
+            <manifest>
+                <attribute name="Main-Class" value="${mainclass}"/>
+            </manifest>
+        </jar>
+    </target>
+
+
+    <target name="run" depends="jar">
+        <java jar="${jardirectory}/${ant.project.name}.jar" fork="true"/>
+    </target>
+
+	
+	<target name="starttask" depends="clean,run"></target>
+</project>

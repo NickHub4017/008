@@ -10,11 +10,13 @@ import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
 import Exceptions.NotAuthorize;
 import Exceptions.SessionTimeOut;
+import Handlers.AccountHandler;
+import Handlers.MessageHandler;
 
 public class User {
 	 String Uname;
 	 String Pwd;
-	 int id;//This will get 0< value when login successful
+	 public	 int id;//This will get 0< value when login successful
 	 HashMap<String, Account> accounts=new HashMap<String,Account>();
 		Profile profile;
 		 long key;

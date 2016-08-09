@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Account {
-	double amount;
-	String accountNo;
-	Date createdDate;
-	ArrayList<Transaction> transactions=new ArrayList<Transaction>();
+public	double amount;
+public	String accountNo;
+public Date createdDate;
+public	ArrayList<Transaction> transactions=new ArrayList<Transaction>();
 
 	public ArrayList<Transaction> getTransactions() {
 		return transactions;
