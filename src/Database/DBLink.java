@@ -262,9 +262,6 @@ public class DBLink {
 	    	  
 	    	  accounts.put(result.getString(1), temp);
 	    	  
-	    	  
-	    	  
-	    	  
 	      }
 	      stmt.close();
 	      return accounts;

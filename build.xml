@@ -5,6 +5,22 @@
 	<property name="jardirectory" value="${distributedirectory}/jar"></property>
 	<property name="libdirectory" value="lib"></property>
 	<property name="mainclass" value="Interface/UI"></property>
+
+
+	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
+		<classpath>
+	   		<pathelement location="${libdirectory}/aspectjtools-1.6.12.jar"/>
+			
+	  	</classpath>
+	</taskdef>
+	
+	<path id="classpath">
+			<fileset id="lib" dir="${libdirectory}">
+				<include name="aspectjrt.jar"/>
+				<include name="sqlite-jdbc-3.6.20.1.jar"/>
+			</fileset>
+		</path>
+		
 	
 	<target name="clean">
 		<delete dir="${distributedirectory}"/>
@@ -12,11 +28,11 @@
 	
     <target name="compile">
         <mkdir dir="${classesdirectory}"/>
-        <javac srcdir="${sourcedirectory}" destdir="${classesdirectory}">
-        	<classpath>
-        	        <pathelement path="${libdirectory}/*.jar"/>
-        	    </classpath>
-        </javac>
+    	 <iajc srcdir="${sourcedirectory}" destdir="${classesdirectory}" source="1.5">
+    				<classpath refid="classpath"/>
+    				<include name="**/*.java"/>
+    		    	<include name="**/*.aj"/>
+    	</iajc>
     </target>
 
     <target name="jar" depends="compile">
@@ -29,11 +45,9 @@
         </jar>
     </target>
 
-
     <target name="run" depends="jar">
         <java jar="${jardirectory}/${ant.project.name}.jar" fork="true"/>
     </target>
 
-	
 	<target name="starttask" depends="clean,run"></target>
 </project>

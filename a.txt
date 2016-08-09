@@ -1,0 +1,40 @@
+Buildfile: C:\Users\NRV\workspace\Try2\build.xml
+
+clean:
+   [delete] Deleting directory C:\Users\NRV\workspace\Try2\dist
+
+compile:
+    [mkdir] Created dir: C:\Users\NRV\workspace\Try2\dist\class
+     [iajc] warning bad version number found in C:\Users\NRV\workspace\Try2\aspectj\aspectjrt.jar expected 1.6.12 found 1.7.4
+     [iajc] warning at public pointcut accountauthorization(Account account,User user) :call(* AccountHandler.TransferAmount(Account,..,User)) && args(account,..,user);
+     [iajc]                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     [iajc] C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:31:0::0 no match for this type name: AccountHandler [Xlint:invalidAbsoluteTypeName]
+     [iajc] warning at public pointcut accountauthorizDeposit(Account account,User user) :call(* AccountHandler.Deposit(Account,User,..)) && args(account,user,..);
+     [iajc]                                                                           ^^^^^^^^^^^^^^^^^^^^
+     [iajc] C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:50:0::0 no match for this type name: AccountHandler [Xlint:invalidAbsoluteTypeName]
+     [iajc] warning at public pointcut accountAuthorizWithdraw(Account account,User user) :(call(* AccountHandler.Withdraw(Account,User,..))|| call(* AccountHandler.Withdraw(Account,User,..))) && args(account,user,..);
+     [iajc]                                                                             ^^^^^^^^^^^^^^^^^^^^^
+     [iajc] C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:67:0::0 no match for this type name: AccountHandler [Xlint:invalidAbsoluteTypeName]
+     [iajc] warning at public pointcut accountAuthorizWithdraw(Account account,User user) :(call(* AccountHandler.Withdraw(Account,User,..))|| call(* AccountHandler.Withdraw(Account,User,..))) && args(account,user,..);
+     [iajc]                                                                                                                                ^^^^^^^^^^^^^^^^^^^^^
+     [iajc] C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:67:0::0 no match for this type name: AccountHandler [Xlint:invalidAbsoluteTypeName]
+     [iajc] warning at public pointcut useraccess(User user) :call(* User.*(..)) && target(user) && !within(UserAccess) && !within(AccessControl) && within(UI) ;
+     [iajc]                                                                                                                                      
+     [iajc] C:\Users\NRV\workspace\Try2\src\Aspect\UserAccess.aj:16:0::0 no match for this type name: UI [Xlint:invalidAbsoluteTypeName]
+     [iajc] warning at C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:69::0 advice defined in Aspect.AccessControl has not been applied [Xlint:adviceDidNotMatch]
+     [iajc] warning at C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:51::0 advice defined in Aspect.AccessControl has not been applied [Xlint:adviceDidNotMatch]
+     [iajc] warning at C:\Users\NRV\workspace\Try2\src\Aspect\AccessControl.aj:32::0 advice defined in Aspect.AccessControl has not been applied [Xlint:adviceDidNotMatch]
+     [iajc] warning at C:\Users\NRV\workspace\Try2\src\Aspect\UserAccess.aj:34::0 advice defined in Aspect.UserAccess has not been applied [Xlint:adviceDidNotMatch]
+     [iajc] warning at C:\Users\NRV\workspace\Try2\src\Aspect\UserAccess.aj:18::0 advice defined in Aspect.UserAccess has not been applied [Xlint:adviceDidNotMatch]
+
+jar:
+    [mkdir] Created dir: C:\Users\NRV\workspace\Try2\dist\jar
+      [jar] Building jar: C:\Users\NRV\workspace\Try2\dist\jar\Peoples Bank.jar
+
+run:
+     [java] Error: Could not find or load main class Interface.UI
+
+starttask:
+
+BUILD SUCCESSFUL
+Total time: 6 seconds
