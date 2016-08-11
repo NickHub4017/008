@@ -1,11 +1,9 @@
 package Aspect;
 
-import java.sql.SQLException;
-
-import Exceptions.NotAuthorize;
 import Exceptions.SessionTimeOut;
 import Bussiness.*;
-import Database.DBLink;
+import Interface.*;
+
 
 
 
@@ -34,7 +32,7 @@ public aspect UserAccess {
 	before(User user) throws SessionTimeOut: useraccess(user) {
 		long curtime=System.currentTimeMillis();
 		if(user.getKey()>curtime){
-			user.setKey(System.currentTimeMillis()+10000);
+			user.setKey(System.currentTimeMillis()+100000);
 		}else{
 			throw new SessionTimeOut("Session Time out");
 			
@@ -46,7 +44,7 @@ public aspect UserAccess {
 	pointcut VerifyLogging(User user) : initialization(User.new(String,String)) && target(user) && !within(UserAccess);
 	
 	after(User user): VerifyLogging(user){
-		  user.setKey(System.currentTimeMillis()+10000);
+		  user.setKey(System.currentTimeMillis()+100000);
 	  }
 
 	

@@ -3,7 +3,7 @@ package Handlers;
 import java.sql.SQLException;
 import java.util.Date;
 
-import javax.naming.InsufficientResourcesException;
+
 
 import Bussiness.Account;
 import Bussiness.Transaction;
@@ -55,7 +55,7 @@ public class AccountHandler {
 		return true;
 	}
 	
-	public static boolean Withdraw(Account from,User byuser,double amount) throws SQLException,NotAuthorize{
+	public static boolean Withdraw(Account from,User byuser,double amount) throws SQLException,NotAuthorize, InsufficientBalance{
 		if(from.getAmount()>=amount){
 			Transaction tr_temp=new Transaction(amount, from.accountNo,"ATM", new Date());
 			boolean res=DBLink.submitTransaction(tr_temp, byuser);
@@ -65,8 +65,8 @@ public class AccountHandler {
 			return res;
 		}
 		else{
+			throw new InsufficientBalance(byuser.getUname(), from.getAccountNo(), amount);
 			
-			return false;
 		}
 		
 		

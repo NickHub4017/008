@@ -10,7 +10,6 @@
 	<taskdef resource="org/aspectj/tools/ant/taskdefs/aspectjTaskdefs.properties">
 		<classpath>
 	   		<pathelement location="${libdirectory}/aspectjtools-1.6.12.jar"/>
-			
 	  	</classpath>
 	</taskdef>
 	
@@ -28,6 +27,11 @@
 	
     <target name="compile">
         <mkdir dir="${classesdirectory}"/>
+        <!-- <javac srcdir="${sourcedirectory}" destdir="${classesdirectory}">
+        	<classpath>
+        	        <pathelement path="${libdirectory}/*.jar"/>
+        	    </classpath>
+        </javac>  -->
     	 <iajc srcdir="${sourcedirectory}" destdir="${classesdirectory}" source="1.5">
     				<classpath refid="classpath"/>
     				<include name="**/*.java"/>
@@ -45,9 +49,14 @@
         </jar>
     </target>
 
+
     <target name="run" depends="jar">
         <java jar="${jardirectory}/${ant.project.name}.jar" fork="true"/>
     </target>
 
-	<target name="starttask" depends="clean,run"></target>
+	
+	<target name="starttask" depends="clean,run">
+	<echo>
+	</echo>
+	</target>
 </project>

@@ -7,3 +7,32 @@
 9 Aug 2016 14:41:59 GMT   Account Exsists :- AccNo :- 123 By user :- A
 9 Aug 2016 14:42:25 GMT   No line found
 9 Aug 2016 14:42:25 GMT   No line found
+9 Aug 2016 15:09:43 GMT   User exsists in the system :- A
+9 Aug 2016 16:37:37 GMT   Account Exsists :- AccNo :- 123 By user :- A
+9 Aug 2016 16:37:37 GMT   Account Exsists :- AccNo :- 123 By user :- A
+11 Aug 2016 05:08:23 GMT   Account Exsists :- AccNo :- 123 By user :- A
+11 Aug 2016 05:08:23 GMT   Account Exsists :- AccNo :- 123 By user :- A
+11 Aug 2016 05:08:46 GMT   Insufficient amount A from account 123 to account 456 amount 1.0E7
+11 Aug 2016 05:08:46 GMT   Insufficient amount A from account 123 to account 456 amount 1.0E7
+11 Aug 2016 05:15:37 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:15:37 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:15:45 GMT   You dont have authorize
+11 Aug 2016 05:16:16 GMT   You dont have authorize
+11 Aug 2016 05:16:33 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:16:33 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:16:40 GMT   You dont have authorize
+11 Aug 2016 05:17:06 GMT   You dont have authorize
+11 Aug 2016 05:17:22 GMT   You dont have aithorize
+11 Aug 2016 05:22:29 GMT   You dont have authorize
+11 Aug 2016 05:22:38 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:22:38 GMT   Account Exsists :- AccNo :- 789 By user :- Q
+11 Aug 2016 05:23:19 GMT   You dont have authorize
+11 Aug 2016 05:23:25 GMT   You dont have aithorize
+11 Aug 2016 05:52:13 GMT   Insufficient amount A from account 1000000  amount 10.0
+11 Aug 2016 05:52:13 GMT   Insufficient amount A from account 1000000  amount 10.0
+11 Aug 2016 05:52:25 GMT   Insufficient amount A from account 123  amount 1000000.0
+11 Aug 2016 05:52:25 GMT   Insufficient amount A from account 123  amount 1000000.0
+11 Aug 2016 05:57:19 GMT   Insufficient amount A from account 123  amount 100000.0
+11 Aug 2016 05:57:19 GMT   Insufficient amount A from account 123  amount 100000.0
+11 Aug 2016 05:57:45 GMT   Session Time out
+11 Aug 2016 05:57:58 GMT   Session Time out

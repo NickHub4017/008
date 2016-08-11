@@ -4,18 +4,21 @@ import java.sql.SQLException;
 import Bussiness.*;
 import Database.DBLink;
 import Exceptions.NotAuthorize;
-
+import Exceptions.SessionTimeOut;
+import Handlers.*;
 
 public aspect AccessControl {
 	declare precedence: UserAccess,*,LoggerAspect;
 	public pointcut useraccess(User user) :call(* User.*(*)) && target(user) && !within(AccessControl) &&!within(UserAccess);
 
-	before(User user) : useraccess(user) {
+	before(User user) throws SessionTimeOut : useraccess(user) {
 		long curtime=System.currentTimeMillis();
 		if(user.getKey()>curtime){
-			user.setKey(System.currentTimeMillis()+10000);
+			user.setKey(System.currentTimeMillis()+100000);
 		}else{
 			System.out.println("Session Timed out");
+			throw new SessionTimeOut("Session Timed out");
+			
 			
 		}
 		
@@ -25,7 +28,7 @@ public aspect AccessControl {
 	pointcut VerifyLogging(User user) : initialization(User.new(String,String)) && target(user) && !within(AccessControl);
 	
 	after(User user): VerifyLogging(user){
-		  user.setKey(System.currentTimeMillis()+10000);
+		  user.setKey(System.currentTimeMillis()+100000);
 	  }
 
 	public pointcut accountauthorization(Account account,User user) :call(* AccountHandler.TransferAmount(Account,..,User)) && args(account,..,user);

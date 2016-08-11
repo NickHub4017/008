@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import Bussiness.Account;
 import Bussiness.User;
 import Database.DBLink;
+import Exceptions.SessionTimeOut;
 import Exceptions.UserExsist;
 
 public class UserHandler {
@@ -22,7 +23,7 @@ public class UserHandler {
 		
 	}
 	
-	public static User Login(String Uname,String Pwd) throws SQLException{
+	public static User Login(String Uname,String Pwd) throws SQLException, SessionTimeOut{
 		int id= DBLink.CheckLogin(Uname,Pwd);
 		if (id!=-1){
 			User user=new User(Uname, Pwd);
@@ -33,7 +34,7 @@ public class UserHandler {
 		return null;
 	}
 	
-	public static void initUserData(User user) throws SQLException{
+	public static void initUserData(User user) throws SQLException,SessionTimeOut{
 		user.setAccounts(DBLink.getAccounts(user.getId()));
 		for (Account act: user.getAccounts().values()){
 			act.setTransactions(DBLink.getTransactions(act.getAccountNo()));

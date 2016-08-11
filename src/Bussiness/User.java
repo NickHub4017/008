@@ -37,7 +37,7 @@ public class User {
 		return accounts;
 	}
 
-	public void setAccounts(HashMap<String, Account> accounts) {
+	public void setAccounts(HashMap<String, Account> accounts)throws SessionTimeOut {
 		this.accounts = accounts;
 	}
 	
@@ -113,7 +113,7 @@ public class User {
 		return profile;
 	}
 
-	public void setProfile(Profile profile) {
+	public void setProfile(Profile profile) throws SessionTimeOut{
 		this.profile = profile;
 	}
 
@@ -129,7 +129,7 @@ public class User {
 		  
 	}
 	
-	public boolean withdraw(String from,double amount) throws SQLException, NotAuthorize,SessionTimeOut{
+	public boolean withdraw(String from,double amount) throws SQLException, NotAuthorize,SessionTimeOut, InsufficientBalance{
 		Account fromacc=new Account(from);
 		if(accounts.containsKey(from)){
 			fromacc=accounts.get(from);

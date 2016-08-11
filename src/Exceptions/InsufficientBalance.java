@@ -6,5 +6,9 @@ public class InsufficientBalance extends Exception {
 		super("Insufficient amount "+User+" from account "+from_account+" to account "+to_account+" amount "+amount);
 		
 	}
+	public InsufficientBalance(String User,String from_account,double amount) {
+		super("Insufficient amount "+User+" from account "+from_account+"  amount "+amount);
+		
+	}
 
 }

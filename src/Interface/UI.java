@@ -16,7 +16,7 @@ import Handlers.UserHandler;
 public class UI {
 	
 	public static void main(String args[]) {
-		
+		System.out.println("Welcome");
 		DBLink p;
 		try {
 			p = new DBLink();
@@ -38,7 +38,7 @@ public class UI {
 		int mainoptionint;
 		
 		do{
-			System.out.println("Enter Options 3-Login  2-Register 1-Exit");
+			System.out.println("Enter Options 1-Login  2-Register 3-Exit");
 			mainoption=scanner.nextLine();
 			try{
 			mainoptionint=Integer.parseInt(mainoption);
@@ -50,11 +50,12 @@ public class UI {
 			if(mainoptionint==2){
 					Register();
 			}
-			else if(mainoptionint==3){
+			else if(mainoptionint==1){
 				User user=null;
 				user = Login();
 				
 				if(user!=null){
+					System.out.println("You have successfully Login.");
 					optionTwo(user);
 				
 				}
@@ -62,11 +63,9 @@ public class UI {
 					System.err.println("Invalid Credentials");
 				}
 			}
-			else if(mainoptionint==4){
-				break;
-			}
 			
-		}while(!mainoption.equals("1"));
+			
+		}while(!mainoption.equals("3"));
 		
 		return;
 	}
@@ -142,6 +141,9 @@ public class UI {
 			if(!UserHandler.Register(uname, pwd,re_pwd,name,addr)){
 				System.err.println("Password Didn't match");
 			}
+			else{
+				System.out.println("Registration complete");
+			}
 			
 		} catch (ClassNotFoundException e) {
 		//	System.err.println("Sorry System error occured in Register Please Try Again"+e.getMessage());
@@ -165,6 +167,9 @@ public class UI {
 		} catch (SQLException e) {
 			//System.err.println("Sorry System error occured in Login Please Try Again");
 			//e.printStackTrace();
+		} catch (SessionTimeOut e) {
+			// TODO Auto-generated catch block
+			
 		}
 		return User;
 	}
@@ -175,6 +180,7 @@ public class UI {
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.createAccount(accountNo);
+			System.out.println("Account created successfully");
 		} 
 		catch (SQLException   e) {
 		} catch (AccountExsists e) {
@@ -196,6 +202,7 @@ public class UI {
 		long amount=scanner.nextLong();
 		try {
 			byuser.TransferAmount(from_accountNo, to_accountNo, amount);
+			System.out.println("Transaction successfull");
 			
 		} catch (SQLException  e) {
 			//System.err.println(e.getMessage());
@@ -219,6 +226,7 @@ public class UI {
 		String accountNo=scanner.nextLine();
 		try {
 			byuser.showHsitory(accountNo);
+			
 		} catch (SQLException e) {
 
 			
@@ -269,6 +277,7 @@ public class UI {
 		String newname=scanner.nextLine();
 		try {
 			byuser.changeName(newname);
+			System.out.println("Name changed successfully");
 		} catch (SessionTimeOut e) {
 			
 		}
@@ -282,6 +291,7 @@ public class UI {
 		String newaddr=scanner.nextLine();
 		try {
 			byuser.changeAddress(newaddr);
+			System.out.println("Address changed successfully");
 		} catch (SessionTimeOut e) {
 			
 		}
@@ -293,6 +303,7 @@ public class UI {
 		String msg=scanner.nextLine();
 		try {
 			byuser.putMessage(msg);
+			System.out.println("Message is sent");
 		} catch (SQLException e) {
 
 			
@@ -313,6 +324,7 @@ public class UI {
 		double amount=scanner.nextDouble();
 		try {
 			byuser.deposit(accno, amount);
+			System.out.println("Deposit complete");
 		}catch (SQLException e) {
 	
 		} catch (NotAuthorize e) {
@@ -334,12 +346,16 @@ public class UI {
 		double amount=scanner.nextDouble();
 		try {
 			byuser.withdraw(accno, amount);
+			System.out.println("Withdraw complete");
 		} catch (SQLException e) {
 			
 		} catch (NotAuthorize e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		} catch (SessionTimeOut e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (InsufficientBalance e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		}
