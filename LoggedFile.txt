@@ -36,3 +36,10 @@
 11 Aug 2016 05:57:19 GMT   Insufficient amount A from account 123  amount 100000.0
 11 Aug 2016 05:57:45 GMT   Session Time out
 11 Aug 2016 05:57:58 GMT   Session Time out
+11 Aug 2016 06:04:35 GMT   You dont have authorize Q for 123 call(boolean Handlers.AccountHandler.TransferAmount(Account, Account, double, User))
+11 Aug 2016 06:55:25 GMT   Insufficient amount A from account 123 to account 456 amount 100000.0
+11 Aug 2016 06:55:25 GMT   Insufficient amount A from account 123 to account 456 amount 100000.0
+11 Aug 2016 06:55:31 GMT   Account Exsists :- AccNo :- 123 By user :- A
+11 Aug 2016 06:55:31 GMT   Account Exsists :- AccNo :- 123 By user :- A
+11 Aug 2016 06:56:30 GMT   You dont have aithorize
+11 Aug 2016 06:58:31 GMT   User exsists in the system :- Q

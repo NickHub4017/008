@@ -41,8 +41,8 @@ public aspect AccessControl {
 				
 			}
 			else{
-				System.out.println("You dont have aithorize");
-				throw new NotAuthorize("You dont have aithorize"); 
+				System.out.println("You dont have authorize");
+				throw new NotAuthorize("You dont have authorize "+user.getUname()+" for " +account.getAccountNo()+" "+thisJoinPoint.toString()); 
 					
 			}
 			

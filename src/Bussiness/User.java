@@ -3,9 +3,6 @@ package Bussiness;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-import javax.naming.InsufficientResourcesException;
-import javax.print.attribute.HashAttributeSet;
-
 import Exceptions.AccountExsists;
 import Exceptions.InsufficientBalance;
 import Exceptions.NotAuthorize;
